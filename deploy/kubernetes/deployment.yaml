@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: healthcare-agents-config
+data:
+  APP_ENV: production
+  LOG_LEVEL: INFO
+  PHI_REDACTION_ENABLED: "true"
+  CLINICAL_DISCLAIMER_ENABLED: "true"
+  RAG_BASE_URL: memory
+  OBSERVABILITY: cloudwatch
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: healthcare-agents-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: healthcare-agents-api
+  template:
+    metadata:
+      labels:
+        app: healthcare-agents-api
+    spec:
+      containers:
+        - name: api
+          image: healthcare-agents:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: healthcare-agents-config
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: healthcare-agents-api
+spec:
+  selector:
+    app: healthcare-agents-api
+  ports:
+    - port: 8000
+      targetPort: 8000
+  type: ClusterIP
