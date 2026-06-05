@@ -1,12 +1,12 @@
 # Classroom Healthcare Medicaid Customer Service Agentic AI
 
-**Repository / folder name:** `classroom-Healhcare-medicaid-customer-service-agenticAI`
+**Repository / folder name:** `classroom-Healthcare-Medicaid-customer-service-agenticAI`
 
 Production-grade agentic AI for **Medicaid customer service** — stateful, governed, multi-step workflows across eligibility, claims, prior authorization, scheduling, billing, and compliance.
 
 > The Python package remains `healthcare_agents` (pip: `healthcare-agents`) so imports and CLI commands stay the same after renaming the repo folder.
 
-[![CI](https://github.com/your-org/classroom-Healhcare-medicaid-customer-service-agenticAI/actions/workflows/ci.yml/badge.svg)](https://github.com/your-org/classroom-Healhcare-medicaid-customer-service-agenticAI/actions/workflows/ci.yml)
+[![CI](https://github.com/WhiteboxHub/classroom-Healthcare-Medicaid-customer-service-agenticAI/actions/workflows/ci.yml/badge.svg)](https://github.com/WhiteboxHub/classroom-Healthcare-Medicaid-customer-service-agenticAI/actions/workflows/ci.yml)
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -25,8 +25,8 @@ Production-grade agentic AI for **Medicaid customer service** — stateful, gove
 ## Quick Start
 
 ```bash
-git clone https://github.com/your-org/classroom-Healhcare-medicaid-customer-service-agenticAI.git
-cd classroom-Healhcare-medicaid-customer-service-agenticAI
+git clone https://github.com/WhiteboxHub/classroom-Healthcare-Medicaid-customer-service-agenticAI.git
+cd classroom-Healthcare-Medicaid-customer-service-agenticAI
 python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
 pip install -e ".[all,dev]"
@@ -51,20 +51,20 @@ There are three ways to run the system. **Start with the CLI** if you just want 
 
 ```powershell
 # Windows — run from the parent directory
-Rename-Item -Path "healthcare-agentic-ai" -NewName "classroom-Healhcare-medicaid-customer-service-agenticAI"
-cd classroom-Healhcare-medicaid-customer-service-agenticAI
+Rename-Item -Path "healthcare-agentic-ai" -NewName "classroom-Healthcare-Medicaid-customer-service-agenticAI"
+cd classroom-Healthcare-Medicaid-customer-service-agenticAI
 ```
 
 ```bash
 # macOS / Linux — run from the parent directory
-mv healthcare-agentic-ai classroom-Healhcare-medicaid-customer-service-agenticAI
-cd classroom-Healhcare-medicaid-customer-service-agenticAI
+mv healthcare-agentic-ai classroom-Healthcare-Medicaid-customer-service-agenticAI
+cd classroom-Healthcare-Medicaid-customer-service-agenticAI
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-cd classroom-Healhcare-medicaid-customer-service-agenticAI
+cd classroom-Healthcare-Medicaid-customer-service-agenticAI
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -e ".[orchestration,api,dev]"
@@ -73,7 +73,7 @@ pip install -e ".[orchestration,api,dev]"
 **macOS / Linux:**
 
 ```bash
-cd classroom-Healhcare-medicaid-customer-service-agenticAI
+cd classroom-Healthcare-Medicaid-customer-service-agenticAI
 python -m venv .venv
 source .venv/bin/activate
 pip install -e ".[orchestration,api,dev]"
@@ -423,7 +423,7 @@ print(result.metadata["workflow_metrics"]) # completion + branching
 ## Repository Structure
 
 ```
-classroom-Healhcare-medicaid-customer-service-agenticAI/
+classroom-Healthcare-Medicaid-customer-service-agenticAI/
 ├── .github/workflows/     # CI/CD pipelines
 ├── deploy/                # Docker + Kubernetes manifests
 ├── docs/                  # Architecture & design docs

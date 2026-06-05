@@ -69,7 +69,7 @@ class HealthcareAPIService:
         }
 
     def health(self) -> dict[str, str]:
-        return {"status": "ok", "service": "classroom-Healhcare-medicaid-customer-service-agenticAI"}
+        return {"status": "ok", "service": "classroom-Healthcare-Medicaid-customer-service-agenticAI"}
 
 
 def create_app():

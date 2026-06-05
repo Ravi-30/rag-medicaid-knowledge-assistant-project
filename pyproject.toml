@@ -57,10 +57,10 @@ healthcare-api = "healthcare_agents.api.server:main"
 healthcare-chat = "healthcare_agents.cli_chat:main"
 
 [project.urls]
-Homepage = "https://github.com/your-org/classroom-Healhcare-medicaid-customer-service-agenticAI"
-Documentation = "https://github.com/your-org/classroom-Healhcare-medicaid-customer-service-agenticAI/tree/main/docs"
-Repository = "https://github.com/your-org/classroom-Healhcare-medicaid-customer-service-agenticAI"
-Issues = "https://github.com/your-org/classroom-Healhcare-medicaid-customer-service-agenticAI/issues"
+Homepage = "https://github.com/WhiteboxHub/classroom-Healthcare-Medicaid-customer-service-agenticAI"
+Documentation = "https://github.com/WhiteboxHub/classroom-Healthcare-Medicaid-customer-service-agenticAI/tree/main/docs"
+Repository = "https://github.com/WhiteboxHub/classroom-Healthcare-Medicaid-customer-service-agenticAI"
+Issues = "https://github.com/WhiteboxHub/classroom-Healthcare-Medicaid-customer-service-agenticAI/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/healthcare_agents"]

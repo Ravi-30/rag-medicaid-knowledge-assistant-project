@@ -8,7 +8,7 @@ class Settings(BaseSettings):
 
     # Application
     app_env: str = "development"
-    app_name: str = "classroom-Healhcare-medicaid-customer-service-agenticAI"
+    app_name: str = "classroom-Healthcare-Medicaid-customer-service-agenticAI"
 
     # LLM
     openai_api_key: str = ""

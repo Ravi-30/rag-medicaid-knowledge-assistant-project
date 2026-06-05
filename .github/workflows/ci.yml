@@ -53,4 +53,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build Docker image
-        run: docker build -t classroom-healhcare-medicaid-cs-agenticai:ci .
+        run: docker build -t classroom-healthcare-medicaid-cs-agenticai:ci .

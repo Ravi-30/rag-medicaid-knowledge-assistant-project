@@ -1,12 +1,12 @@
 # Contributing
 
-Thank you for contributing to **classroom-Healhcare-medicaid-customer-service-agenticAI**.
+Thank you for contributing to **classroom-Healthcare-Medicaid-customer-service-agenticAI**.
 
 ## Development Setup
 
 ```bash
-git clone https://github.com/your-org/classroom-Healhcare-medicaid-customer-service-agenticAI.git
-cd classroom-Healhcare-medicaid-customer-service-agenticAI
+git clone https://github.com/WhiteboxHub/classroom-Healthcare-Medicaid-customer-service-agenticAI.git
+cd classroom-Healthcare-Medicaid-customer-service-agenticAI
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
 make install

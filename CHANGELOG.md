@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to **classroom-Healhcare-medicaid-customer-service-agenticAI** are documented here.
+All notable changes to **classroom-Healthcare-Medicaid-customer-service-agenticAI** are documented here.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
