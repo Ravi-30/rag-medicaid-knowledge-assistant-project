@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicaid Agentic AI Dashboard</title>
+    <!-- Outfit & Inter Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/index.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">✦</div>
+                <div class="logo-text">
+                    <h1>XYZ Healthcare</h1>
+                    <span>Medicaid Agentic AI</span>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <button class="nav-item active" data-tab="chat">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-label">Agentic Chat</span>
+                </button>
+                <button class="nav-item" data-tab="hitl">
+                    <span class="nav-icon">🛡️</span>
+                    <span class="nav-label">Specialist HITL</span>
+                    <span class="badge" id="hitl-badge">0</span>
+                </button>
+                <button class="nav-item" data-tab="metrics">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">Observability</span>
+                </button>
+                <button class="nav-item" data-tab="architecture">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-label">Architecture</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="role-selector-container">
+                    <label for="user-role">Active Role</label>
+                    <select id="user-role" class="role-select">
+                        <option value="provider" selected>Provider (Clinical)</option>
+                        <option value="member">Member (Patient)</option>
+                        <option value="ops_analyst">Ops Analyst</option>
+                        <option value="admin">System Admin</option>
+                    </select>
+                </div>
+                <div class="credentials-info">
+                    <span class="auth-key-label">API Authorization Header</span>
+                    <code id="api-key-display">X-API-Key: provider-demo-key</code>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- TAB 1: CHAT CONSOLE -->
+            <section class="tab-panel active" id="panel-chat">
+                <div class="panel-header">
+                    <h2>Conversational Service Portal</h2>
+                    <p>Enter natural language requests for eligibility, claims, booking, or prior auth.</p>
+                </div>
+
+                <div class="chat-workspace">
+                    <div class="chat-main">
+                        <div class="chat-messages" id="chat-messages-container">
+                            <div class="message system">
+                                <div class="message-avatar">✦</div>
+                                <div class="message-content">
+                                    <p>Welcome to XYZ Healthcare's Agentic Service portal. You are currently connected as a <strong>Provider</strong>.</p>
+                                    <p>Try one of the quick scenarios below to see multi-agent orchestration and MCP tool executions in action.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Template Scenarios -->
+                        <div class="scenarios-grid">
+                            <button class="scenario-btn" data-query="check Medicaid eligibility and benefits for member-001">
+                                <span class="btn-icon">🔍</span>
+                                <span class="btn-text">Check Eligibility</span>
+                            </button>
+                            <button class="scenario-btn" data-query="book a primary care appointment for next week due to back pain">
+                                <span class="btn-icon">📅</span>
+                                <span class="btn-text">Book Appointment</span>
+                            </button>
+                            <button class="scenario-btn" data-query="submit prior auth for MRI of lumbar spine, priority high">
+                                <span class="btn-icon">📋</span>
+                                <span class="btn-text">Submit Prior Auth</span>
+                            </button>
+                            <button class="scenario-btn" data-query="process a refund request for denied claim CLM-12345 in amount of $250">
+                                <span class="btn-icon">💰</span>
+                                <span class="btn-text">Request Claim Refund</span>
+                            </button>
+                        </div>
+
+                        <form class="chat-input-area" id="chat-form">
+                            <input type="text" id="chat-input" placeholder="Ask anything..." required autocomplete="off">
+                            <button type="submit" class="send-btn">Send ➔</button>
+                        </form>
+                    </div>
+
+                    <!-- Live Orchestration Trace (Right Pane) -->
+                    <div class="chat-trace-sidebar">
+                        <h3>Live Orchestration Trace</h3>
+                        <div class="trace-info-card">
+                            <div class="info-row">
+                                <span class="info-lbl">Orchestration Engine:</span>
+                                <span class="info-val" id="trace-engine">LangGraph</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-lbl">Routed Primary Agent:</span>
+                                <span class="info-val highlight" id="trace-agent">-</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-lbl">Case ID:</span>
+                                <span class="info-val" id="trace-case">-</span>
+                            </div>
+                        </div>
+
+                        <div class="trace-steps-timeline" id="trace-steps-container">
+                            <div class="trace-step-node" id="node-guard_input">
+                                <div class="node-indicator"></div>
+                                <span class="node-name">Input Safety Guard</span>
+                            </div>
+                            <div class="trace-step-node" id="node-triage">
+                                <div class="node-indicator"></div>
+                                <span class="node-name">A — Intent Triage</span>
+                            </div>
+                            <div class="trace-step-node" id="node-context_enrichment">
+                                <div class="node-indicator"></div>
+                                <span class="node-name">RAG & Knowledge Retrieval</span>
+                            </div>
+                            <div class="trace-step-node" id="node-select_agent">
+                                <div class="node-indicator"></div>
+                                <span class="node-name">B — Select Domain Agent</span>
+                            </div>
+                            <div class="trace-step-node" id="node-planning">
+                                <div class="node-indicator"></div>
+                                <span class="node-name">E — Dynamic Plan Generation</span>
+                            </div>
+                            <div class="trace-step-node" id="node-governed_decision">
+                                <div class="node-indicator"></div>
+                                <span class="node-name">Policy & Compliance Guard</span>
+                            </div>
+                            <div class="trace-step-node" id="node-tool_execution">
+                                <div class="node-indicator"></div>
+                                <span class="node-name">G — Governed MCP Tools</span>
+                            </div>
+                            <div class="trace-step-node" id="node-reflection">
+                                <div class="node-indicator"></div>
+                                <span class="node-name">H — Reasoning & Reflection</span>
+                            </div>
+                            <div class="trace-step-node" id="node-escalation">
+                                <div class="node-indicator"></div>
+                                <span class="node-name">J — HITL Handoff / Escalation</span>
+                            </div>
+                            <div class="trace-step-node" id="node-response">
+                                <div class="node-indicator"></div>
+                                <span class="node-name">Response Synthesis</span>
+                            </div>
+                            <div class="trace-step-node" id="node-persist">
+                                <div class="node-indicator"></div>
+                                <span class="node-name">Persist State & Memory</span>
+                            </div>
+                            <div class="trace-step-node" id="node-action_complete">
+                                <div class="node-indicator"></div>
+                                <span class="node-name">K — Final Artifact Built</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: SPECIALIST HITL CONSOLE -->
+            <section class="tab-panel" id="panel-hitl">
+                <div class="panel-header">
+                    <h2>Specialist HITL Gateways</h2>
+                    <p>Review sensitive or high-risk tasks requiring human-in-the-loop authorization.</p>
+                </div>
+
+                <div class="hitl-layout">
+                    <div class="hitl-section">
+                        <h3>Pending Checkpoints (Sensitive Actions)</h3>
+                        <div class="hitl-list" id="checkpoints-list">
+                            <div class="empty-state">No pending action checkpoints requiring approval.</div>
+                        </div>
+                    </div>
+
+                    <div class="hitl-section">
+                        <h3>Pending Handoffs (Escalated Cases)</h3>
+                        <div class="hitl-list" id="handoffs-list">
+                            <div class="empty-state">No escalated handoffs currently in queue.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: OBSERVABILITY & METRICS HUB -->
+            <section class="tab-panel" id="panel-metrics">
+                <div class="panel-header">
+                    <h2>Observability & Metrics Hub</h2>
+                    <p>Real-time telemetry and evaluation statistics comparing traditional RAG to Agentic AI.</p>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h3>First Contact Resolution (FCR)</h3>
+                        <div class="metric-value">+28%</div>
+                        <p>Increase in FCR for multi-step tasks over traditional RAG pipelines.</p>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Average Handle Time (AHT)</h3>
+                        <div class="metric-value">-35%</div>
+                        <p>Reduction in time spent due to automated agent routing and parallel tooling lookup.</p>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Policy Compliance Rate</h3>
+                        <div class="metric-value">100%</div>
+                        <p>Strict policy enforcement preventing illegal tool parameters and unauthorized actions.</p>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Token Cost Savings</h3>
+                        <div class="metric-value">28%</div>
+                        <p>Savings generated by local context compression and active caching layers.</p>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3>Evaluation Quality Metrics (DeepEval / offline stack)</h3>
+                    <table class="metrics-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Baseline RAG</th>
+                                <th>Hybrid Agentic (Ours)</th>
+                                <th>Improvement</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Precision@5</td>
+                                <td>0.62</td>
+                                <td><strong>0.81</strong></td>
+                                <td class="pos">+30.6%</td>
+                            </tr>
+                            <tr>
+                                <td>Recall@5</td>
+                                <td>0.58</td>
+                                <td><strong>0.76</strong></td>
+                                <td class="pos">+31.0%</td>
+                            </tr>
+                            <tr>
+                                <td>F1@5 Score</td>
+                                <td>0.60</td>
+                                <td><strong>0.78</strong></td>
+                                <td class="pos">+30.0%</td>
+                            </tr>
+                            <tr>
+                                <td>Grounding Score</td>
+                                <td>0.68</td>
+                                <td><strong>0.87</strong></td>
+                                <td class="pos">+27.9%</td>
+                            </tr>
+                            <tr>
+                                <td>Tool Selection Accuracy</td>
+                                <td>—</td>
+                                <td><strong>92.0%</strong></td>
+                                <td class="pos">New Capability</td>
+                            </tr>
+                            <tr>
+                                <td>Action Compliance Check</td>
+                                <td>—</td>
+                                <td><strong>98.0%</strong></td>
+                                <td class="pos">New Capability</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TAB 4: ARCHITECTURE VISUALIZER -->
+            <section class="tab-panel" id="panel-architecture">
+                <div class="panel-header">
+                    <h2>Platform Architecture & LangGraph Design</h2>
+                    <p>Reference documentation maps implementation nodes to the study guide architectural diagram.</p>
+                </div>
+
+                <div class="architecture-flowchart">
+                    <div class="flow-stage">
+                        <div class="stage-title">1. Experience Layer (React / Chat)</div>
+                        <div class="flow-nodes">
+                            <div class="flow-node">User Query</div>
+                        </div>
+                    </div>
+                    <div class="flow-connector">↓</div>
+                    <div class="flow-stage">
+                        <div class="stage-title">2. API Gateway Layer (FastAPI)</div>
+                        <div class="flow-nodes">
+                            <div class="flow-node">Auth & RBAC</div>
+                            <div class="flow-node">Input Guardrails</div>
+                        </div>
+                    </div>
+                    <div class="flow-connector">↓</div>
+                    <div class="flow-stage">
+                        <div class="stage-title">3. Orchestration Layer (LangGraph)</div>
+                        <div class="flow-nodes">
+                            <div class="flow-node node-a">Triage Routing</div>
+                            <div class="flow-node node-b">Context Engineering</div>
+                            <div class="flow-node node-c">Agent Router</div>
+                        </div>
+                    </div>
+                    <div class="flow-connector">↓</div>
+                    <div class="flow-stage">
+                        <div class="stage-title">4. Agent & Reasoning Layer (LangChain)</div>
+                        <div class="flow-nodes">
+                            <div class="flow-node">Eligibility Agent</div>
+                            <div class="flow-node">Claims Agent</div>
+                            <div class="flow-node">Troubleshooting Agent</div>
+                            <div class="flow-node">Escalation Agent</div>
+                        </div>
+                    </div>
+                    <div class="flow-connector">↓</div>
+                    <div class="flow-stage">
+                        <div class="stage-title">5. Action & Tooling Layer (MCP Servers)</div>
+                        <div class="flow-nodes">
+                            <div class="flow-node node-e">Policy Validator</div>
+                            <div class="flow-node node-g">MCP Tool Registry</div>
+                            <div class="flow-node node-h">Handoff Gateway (HITL)</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="/static/index.js"></script>
+</body>
+</html>

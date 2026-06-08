@@ -2,8 +2,14 @@
 
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from datetime import UTC, datetime
-from enum import StrEnum
+from datetime import datetime, timezone
+UTC = timezone.utc
+try:
+    from enum import StrEnum
+except ImportError:
+    from enum import Enum
+    class StrEnum(str, Enum):
+        pass
 from typing import Any
 from uuid import uuid4
 

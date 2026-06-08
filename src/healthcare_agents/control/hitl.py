@@ -1,7 +1,8 @@
 """Human-in-the-loop gateway — handoff packages, ACK, resolution sync."""
 
 from dataclasses import dataclass, field
-from datetime import UTC, datetime
+from datetime import datetime, timezone
+UTC = timezone.utc
 from typing import Any
 
 

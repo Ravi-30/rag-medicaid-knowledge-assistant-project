@@ -1,7 +1,8 @@
 """Session and persistent workflow memory (Layer 4)."""
 
 from dataclasses import dataclass, field
-from datetime import UTC, datetime
+from datetime import datetime, timezone
+UTC = timezone.utc
 from typing import Any
 from uuid import uuid4
 

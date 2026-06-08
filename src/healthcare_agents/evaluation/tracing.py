@@ -1,7 +1,8 @@
 """Evaluation tracing hooks (LangFuse-style step tracing)."""
 
 from dataclasses import dataclass, field
-from datetime import UTC, datetime
+from datetime import datetime, timezone
+UTC = timezone.utc
 from typing import Any
 
 

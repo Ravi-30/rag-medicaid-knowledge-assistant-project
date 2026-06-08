@@ -74,13 +74,17 @@ class HealthcareAPIService:
 
 def create_app():
     """Create FastAPI app (requires `pip install -e '.[api]'`)."""
+    import os
     try:
         from fastapi import Depends, FastAPI, Header, HTTPException
+        from fastapi.staticfiles import StaticFiles
+        from fastapi.responses import FileResponse
         from pydantic import BaseModel, Field
     except ImportError as exc:
         raise ImportError("Install API extras: pip install -e '.[api]'") from exc
 
     from healthcare_agents.api.auth import AuthService
+    from healthcare_agents.experience.dashboard import DashboardAPI
 
     app = FastAPI(
         title="Classroom Healthcare Medicaid Customer Service Agentic AI",
@@ -89,6 +93,10 @@ def create_app():
     )
     service = HealthcareAPIService()
     auth_service = AuthService()
+    dashboard_api = DashboardAPI(
+        memory=service.orchestrator.persistent_memory,
+        hitl=service.orchestrator.hitl
+    )
 
     class ChatRequest(BaseModel):
         query: str
@@ -146,5 +154,44 @@ def create_app():
             role=auth.role,
             metadata=body.metadata,
         )
+
+    # Dashboard routes
+    @app.get("/v1/dashboard/checkpoints")
+    async def get_checkpoints(auth=Depends(require_auth)):
+        return dashboard_api.get_pending_checkpoints()
+
+    @app.get("/v1/dashboard/handoffs")
+    async def get_handoffs(auth=Depends(require_auth)):
+        return dashboard_api.get_pending_handoffs()
+
+    @app.post("/v1/dashboard/checkpoints/approve/{case_id}")
+    async def approve_checkpoint(case_id: str, auth=Depends(require_auth)):
+        res = dashboard_api.approve_checkpoint(case_id)
+        if not res:
+            raise HTTPException(status_code=404, detail="Checkpoint not found")
+        return res
+
+    @app.post("/v1/dashboard/handoffs/acknowledge/{escalation_id}")
+    async def acknowledge_handoff(escalation_id: str, auth=Depends(require_auth)):
+        res = dashboard_api.acknowledge_handoff(escalation_id)
+        if res.get("error") == "not_found":
+            raise HTTPException(status_code=404, detail="Handoff not found")
+        return res
+
+    @app.get("/v1/dashboard/cases/{case_id}")
+    async def get_case(case_id: str, auth=Depends(require_auth)):
+        res = dashboard_api.get_case(case_id)
+        if not res:
+            raise HTTPException(status_code=404, detail="Case not found")
+        return res
+
+    # Static assets serving
+    static_dir = os.path.join(os.path.dirname(__file__), "static")
+    os.makedirs(static_dir, exist_ok=True)
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+    @app.get("/")
+    async def index():
+        return FileResponse(os.path.join(static_dir, "index.html"))
 
     return app

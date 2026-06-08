@@ -8,7 +8,7 @@ version = "0.3.0"
 description = "Classroom Healthcare Medicaid Customer Service Agentic AI — multi-agent orchestration for eligibility, claims, prior auth, and member support"
 readme = "README.md"
 license = "MIT"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 authors = [{ name = "Classroom Healthcare Medicaid CS Agentic AI Contributors" }]
 keywords = ["healthcare", "agentic-ai", "fhir", "clinical-ai", "multi-agent", "langgraph", "mcp"]
 classifiers = [
